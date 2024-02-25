@@ -73,8 +73,8 @@ void loop(){
   //Do not flood the MQTT server, delay by the number of seconds set in the delayMQTTSubmittionBy.   
   //This will also protect the dht11 from being overused. 
   if( (lastMQTTSubmittion + delayMQTTSubmittionBy) <=  currentEpochTime() ){
-    int temperature = 0;
-    int humidity = 0;
+    int  temperature = 0;
+    int  humidity = 0;
 
     // Attempt to read the temperature and humidity values from the DHT11 sensor.
     int result = dht11.readTemperatureHumidity(temperature, humidity);
@@ -94,7 +94,9 @@ void loop(){
         
         // send message
         mqttClient.beginMessage(topic);
-        String jSonMessage = "{\"type\": \"ArdunioR4\",  \"ID\": \"Office\", \"humidity\": \" "+ String(humidity) +"\",  \"temperatureC\": \""+ String(temperature)  +"\", \"EpochTime\": \""+ String(timeClient.getEpochTime()) +"\" }";
+        String jSonMessage = "{\"type\": \"ArdunioR4\",  \"ID\": \"Office\", \"humidity\": "+ String(humidity) +",  \"temperatureC\": "+ String(temperature)  +", \"EpochTime\": \""+ String(timeClient.getEpochTime()) +"\" }";
+        
+
         mqttClient.print(jSonMessage);
         mqttClient.endMessage();
 
